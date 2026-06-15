@@ -165,7 +165,7 @@ const AuthPage = () => {
 
               <button 
                 type="submit" 
-                className="w-full py-3 bg-gradient-to-r from-[#d4f86d] to-[#bde252] hover:shadow-lg hover:shadow-black/20 text-[#1f7060] rounded-xl font-bold text-sm transition-all duration-300 mt-4 active:scale-[0.99]"
+                className="w-full py-3 bg-gradient-to-r from-[#d4f86d] to-[#bde252] hover:shadow-lg hover:shadow-black/20 text-[#1f7060] rounded-xl font-bold text-sm transition-all duration-300 mt-4"
               >
                 {isLogin ? 'Sign In' : 'Sign Up'}
               </button>
