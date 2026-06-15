@@ -9,6 +9,9 @@ const AuthPage = () => {
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
 
+  // Backend API URL
+  const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://sdfcbackend.vercel.app';
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -24,7 +27,7 @@ const AuthPage = () => {
       : formData;
 
     try {
-      const response = await axios.post(endpoint, payload, {
+      const response = await axios.post(`${API_BASE_URL}${endpoint}`, payload, {
         withCredentials: true 
       });
 
@@ -71,119 +74,136 @@ const AuthPage = () => {
             <div className="absolute bottom-0 right-4 w-48 h-48 bg-[#b8dfc4]/50 rounded-t-full filter blur-[1px]" />
             
             {/* Layered Forest Pine Shapes */}
-            <div className="absolute bottom-0 left-12 w-0 h-0 border-l-[24px] border-l-transparent border-r-[24px] border-r-transparent border-b-[60px] border-b-[#428163]" />
-            <div className="absolute bottom-0 left-20 w-0 h-0 border-l-[30px] border-l-transparent border-r-[30px] border-r-transparent border-b-[80px] border-b-[#2e6347]" />
-            <div className="absolute bottom-0 right-16 w-0 h-0 border-l-[28px] border-l-transparent border-r-[28px] border-r-transparent border-b-[70px] border-b-[#357252]" />
-            
-            {/* Deer Silhouettes (represented as stylized minimalist design nodes) */}
-            <div className="absolute bottom-2 left-1/3 flex flex-col items-center opacity-80 animate-pulse">
-              <div className="w-2 h-5 bg-[#1e4431] rounded-full" />
-              <div className="w-5 h-3 bg-[#1e4431] rounded-full -mt-2" />
+            <div className="absolute bottom-4 left-16 w-16 h-32 bg-[#2d7b4f] clip-path-triangle" style={{
+              clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)'
+            }} />
+            <div className="absolute bottom-6 right-20 w-20 h-40 bg-[#1f5a3d] clip-path-triangle" style={{
+              clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)'
+            }} />
+            <div className="absolute bottom-2 left-1/3 w-12 h-24 bg-[#2d7b4f] clip-path-triangle" style={{
+              clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)'
+            }} />
+          </div>
+
+          {/* Centered SVG illustration (simplified for CSS) */}
+          <div className="absolute bottom-0 left-0 right-0 h-64 flex items-center justify-center opacity-20">
+            <svg viewBox="0 0 200 200" className="w-32 h-32">
+              <circle cx="100" cy="100" r="80" fill="none" stroke="#1f5a3d" strokeWidth="2" />
+            </svg>
+          </div>
+
+          <div className="relative z-10 text-center md:text-left mt-8">
+            <p className="text-[#3d6854] text-sm font-medium opacity-80 leading-relaxed">
+              Prepare for success with our comprehensive study materials and expert guidance. Join thousands of students advancing their careers.
+            </p>
+          </div>
+        </div>
+
+        {/* RIGHT SIDE: Login/Register Form */}
+        <div className="md:w-[55%] bg-gradient-to-br from-[#1c9c9c] to-[#157d7d] p-8 md:p-12 flex flex-col justify-center">
+          <div className="mb-8">
+            <h2 className="text-3xl font-bold text-white mb-2">
+              {isLogin ? 'Hello!' : 'Join Us!'}
+            </h2>
+            <p className="text-[#a8d9d7] text-sm">
+              {isLogin 
+                ? 'We are glad to see you again :)' 
+                : 'Create your account to get started'}
+            </p>
+          </div>
+
+          {error && (
+            <div className="mb-4 p-3 bg-red-500/20 border border-red-400 text-red-200 rounded-md text-sm">
+              {error}
             </div>
-          </div>
+          )}
 
-          <div className="relative z-10 text-left">
-            <p className="text-xs font-semibold text-[#4e7d65] uppercase tracking-wider">SCfG</p>
-          </div>
-        </div>
+          {message && (
+            <div className="mb-4 p-3 bg-green-500/20 border border-green-400 text-green-200 rounded-md text-sm">
+              {message}
+            </div>
+          )}
 
-        {/* RIGHT SIDE: Interactive Auth Forms */}
-        <div className="md:w-[55%] bg-[#1f7060] p-8 md:p-12 flex flex-col justify-center text-white relative">
-          
-          <div className="w-full max-w-[360px] mx-auto text-left">
-            <h2 className="text-2xl font-semibold mb-1">Hello!</h2>
-            <p className="text-base text-emerald-100/80 mb-6">
-              {isLogin ? 'We are glad to see you again :)' : 'We are glad to see you :)'}
-            </p>
-
-            {/* Alerts Container */}
-            {error && (
-              <div className="p-3 rounded-xl text-xs text-center mb-4 bg-red-500/20 text-red-200 border border-red-500/30 backdrop-blur-sm animate-shake">
-                {error}
-              </div>
-            )}
-            {message && (
-              <div className="p-3 rounded-xl text-xs text-center mb-4 bg-emerald-500/20 text-emerald-200 border border-emerald-500/30 backdrop-blur-sm">
-                {message}
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {!isLogin && (
+              <div>
+                <label className="block text-white text-sm font-medium mb-2">
+                  Full Name
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required={!isLogin}
+                  placeholder="Enter your full name"
+                  className="w-full px-4 py-3 rounded-lg bg-[#0d5a56] border border-[#2ba39f]/30 text-white placeholder-[#7db8b4] focus:outline-none focus:border-[#4fc3bd] transition"
+                />
               </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-4">
-              {!isLogin && (
-                <div className="flex flex-col">
-                  <label className="text-xs text-emerald-100/70 mb-1.5 ml-1 font-medium tracking-wide">Name</label>
-                  <input 
-                    type="text" 
-                    name="name" 
-                    value={formData.name} 
-                    onChange={handleChange} 
-                    required 
-                    className="p-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/30 text-sm focus:bg-white/15 focus:border-[#d4f86d] focus:outline-none transition-all"
-                  />
-                </div>
-              )}
+            <div>
+              <label className="block text-white text-sm font-medium mb-2">
+                Email Address
+              </label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                placeholder="Enter your email"
+                className="w-full px-4 py-3 rounded-lg bg-[#0d5a56] border border-[#2ba39f]/30 text-white placeholder-[#7db8b4] focus:outline-none focus:border-[#4fc3bd] transition"
+              />
+            </div>
 
-              <div className="flex flex-col">
-                <label className="text-xs text-emerald-100/70 mb-1.5 ml-1 font-medium tracking-wide">Email Address</label>
-                <input 
-                  type="email" 
-                  name="email" 
-                  value={formData.email} 
-                  onChange={handleChange} 
-                  required 
-                  className="p-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/30 text-sm focus:bg-white/15 focus:border-[#d4f86d] focus:outline-none transition-all"
-                />
+            <div>
+              <label className="block text-white text-sm font-medium mb-2">
+                Password
+              </label>
+              <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+                placeholder="Enter your password"
+                className="w-full px-4 py-3 rounded-lg bg-[#0d5a56] border border-[#2ba39f]/30 text-white placeholder-[#7db8b4] focus:outline-none focus:border-[#4fc3bd] transition"
+              />
+            </div>
+
+            {isLogin && (
+              <div className="text-right">
+                <a href="#" className="text-[#4fc3bd] text-sm hover:text-white transition">
+                  Forgot Password?
+                </a>
               </div>
+            )}
 
-              <div className="flex flex-col">
-                <label className="text-xs text-emerald-100/70 mb-1.5 ml-1 font-medium tracking-wide">Password</label>
-                <input 
-                  type="password" 
-                  name="password" 
-                  placeholder="xxxxxxxxx"
-                  value={formData.password} 
-                  onChange={handleChange} 
-                  required 
-                  minLength="6" 
-                  className="p-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/30 text-sm focus:bg-white/15 focus:border-[#d4f86d] focus:outline-none transition-all tracking-widest"
-                />
-              </div>
+            <button
+              type="submit"
+              className="w-full mt-6 px-6 py-3 bg-[#d4f547] text-[#1f5a3d] font-bold rounded-lg hover:bg-[#e5ff66] transition shadow-lg"
+            >
+              {isLogin ? 'Sign In' : 'Sign Up'}
+            </button>
+          </form>
 
-              {!isLogin && (
-                <div className="flex items-start items-center space-x-2 pt-1 pb-2">
-                  <input 
-                    type="checkbox" 
-                    required 
-                    id="terms"
-                    className="accent-[#d4f86d] rounded border-white/20 bg-transparent w-4 h-4 cursor-pointer"
-                  />
-                  <label htmlFor="terms" className="text-[11px] text-emerald-100/70 leading-none cursor-pointer selection:bg-transparent">
-                    I agree <span className="underline hover:text-white transition-colors">Terms of Service</span> and <span className="underline hover:text-white transition-colors">Privacy Policy</span>
-                  </label>
-                </div>
-              )}
-
-              <button 
-                type="submit" 
-                className="w-full py-3 bg-gradient-to-r from-[#d4f86d] to-[#bde252] hover:shadow-lg hover:shadow-black/20 text-[#1f7060] rounded-xl font-bold text-sm transition-all duration-300 mt-4"
-              >
-                {isLogin ? 'Sign In' : 'Sign Up'}
-              </button>
-            </form>
-
-            <p className="text-center mt-6 text-xs text-emerald-100/60">
+          <div className="mt-6 text-center">
+            <p className="text-[#a8d9d7] text-sm">
               {isLogin ? "New to the platform? " : "Already have an account? "}
-              <span 
-                onClick={() => { setIsLogin(!isLogin); setError(''); setMessage(''); }}
-                className="text-[#d4f86d] font-bold cursor-pointer hover:underline ml-1"
+              <button
+                onClick={() => {
+                  setIsLogin(!isLogin);
+                  setError('');
+                  setMessage('');
+                }}
+                className="text-[#d4f547] font-semibold hover:text-white transition"
               >
-                {isLogin ? 'Join now' : 'Sign in'}
-              </span>
+                {isLogin ? 'Join now' : 'Sign In'}
+              </button>
             </p>
-
           </div>
         </div>
-
       </div>
     </div>
   );
