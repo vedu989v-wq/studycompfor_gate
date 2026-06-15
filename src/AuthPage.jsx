@@ -16,6 +16,13 @@ const AuthPage = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const handleToggleMode = () => {
+    setIsLogin(!isLogin);
+    setFormData({ name: '', email: '', password: '' }); // Clear inputs on switch
+    setError('');
+    setMessage('');
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -53,12 +60,11 @@ const AuthPage = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-[#1c9c9c]/10 font-sans antialiased px-4 py-8">
-      {/* Main Container Card mirroring the layout proportions */}
+      {/* Main Container Card */}
       <div className="bg-white rounded-[32px] shadow-2xl w-full max-w-[940px] min-h-[580px] flex flex-col md:flex-row overflow-hidden border border-white/20">
         
-        {/* LEFT SIDE: Welcome Graphic Aspect (Hidden on very small viewports) */}
+        {/* LEFT SIDE: Welcome Graphic */}
         <div className="relative md:w-[45%] bg-gradient-to-br from-[#d2ebd4] via-[#e2f3df] to-[#f4fbf1] p-10 flex flex-col justify-between overflow-hidden">
-          {/* Wave/Curve Overlay shape context */}
           <div className="absolute top-0 right-0 h-full w-16 bg-[#1f7060] opacity-10 rounded-l-[100%] pointer-events-none transform translate-x-8" />
           
           <div className="relative z-10">
@@ -67,25 +73,25 @@ const AuthPage = () => {
             </h1>
           </div>
 
-          {/* Stylized CSS Illustration Elements to represent the custom vector artwork */}
+          {/* Stylized CSS Illustration Elements */}
           <div className="relative w-full h-56 mt-4 flex items-end justify-center">
             {/* Background Mountains */}
             <div className="absolute bottom-0 left-4 w-40 h-40 bg-[#99cbab]/40 rounded-t-full filter blur-[1px]" />
             <div className="absolute bottom-0 right-4 w-48 h-48 bg-[#b8dfc4]/50 rounded-t-full filter blur-[1px]" />
             
             {/* Layered Forest Pine Shapes */}
-            <div className="absolute bottom-4 left-16 w-16 h-32 bg-[#2d7b4f] clip-path-triangle" style={{
+            <div className="absolute bottom-4 left-16 w-16 h-32 bg-[#2d7b4f]" style={{
               clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)'
             }} />
-            <div className="absolute bottom-6 right-20 w-20 h-40 bg-[#1f5a3d] clip-path-triangle" style={{
+            <div className="absolute bottom-6 right-20 w-20 h-40 bg-[#1f5a3d]" style={{
               clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)'
             }} />
-            <div className="absolute bottom-2 left-1/3 w-12 h-24 bg-[#2d7b4f] clip-path-triangle" style={{
+            <div className="absolute bottom-2 left-1/3 w-12 h-24 bg-[#2d7b4f]" style={{
               clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)'
             }} />
           </div>
 
-          {/* Centered SVG illustration (simplified for CSS) */}
+          {/* Centered SVG illustration */}
           <div className="absolute bottom-0 left-0 right-0 h-64 flex items-center justify-center opacity-20">
             <svg viewBox="0 0 200 200" className="w-32 h-32">
               <circle cx="100" cy="100" r="80" fill="none" stroke="#1f5a3d" strokeWidth="2" />
@@ -192,11 +198,7 @@ const AuthPage = () => {
             <p className="text-[#a8d9d7] text-sm">
               {isLogin ? "New to the platform? " : "Already have an account? "}
               <button
-                onClick={() => {
-                  setIsLogin(!isLogin);
-                  setError('');
-                  setMessage('');
-                }}
+                onClick={handleToggleMode}
                 className="text-[#d4f547] font-semibold hover:text-white transition"
               >
                 {isLogin ? 'Join now' : 'Sign In'}
