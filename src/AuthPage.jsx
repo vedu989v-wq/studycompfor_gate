@@ -180,7 +180,7 @@ const AuthPage = () => {
 
             {isLogin && (
               <div className="text-right">
-                <a href="#" className="text-[#4fc3bd] text-sm hover:text-white transition">
+                <a href="/forget-password" className="text-[#4fc3bd] text-sm hover:text-white transition">
                   Forgot Password?
                 </a>
               </div>
